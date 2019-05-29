@@ -17,6 +17,7 @@
 
    <context:annotation-config />
    <context:component-scan base-package="onlineapp.frontend.controller"/>
+   <context:component-scan base-package="onlineapp.backend.daoimpl"/>
    
    <bean id="viewResolver" 
    		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
