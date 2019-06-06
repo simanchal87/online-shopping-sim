@@ -12,6 +12,9 @@ $(function()
 			case 'All Products': 
 				$('#listproducts').addClass('active');
 				break;
+			case 'Manage Products': 
+				$('#manageProducts').addClass('active');
+				break;
 			default : 
 				if (manu == "Home") break;
 				$('#listproducts').addClass('active');
@@ -119,6 +122,14 @@ $(function()
 					});
 				}
 			
+			
+				// dismissing the message alert after 3 sec
+			var $alert = $('.alert');
+			if($alert.length){
+				setTimeout(function() {
+					$alert.fadeOut('slow');				
+				}, 3000);
+			}
 			
 			
 		})

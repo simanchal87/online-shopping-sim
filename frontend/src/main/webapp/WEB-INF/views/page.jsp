@@ -30,10 +30,11 @@
 </script>
 
 <!-- Bootstrap core CSS -->
-<%-- <link href="${css}/bootstrap.min.css" rel="stylesheet"> --%>
+<link href="${css}/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap core CSS -->
 <link href="${css}/bootstrap.css" rel="stylesheet">
+
 
 <!-- Bootstrap core CSS bootstrap3_3.css-->
 <%-- <link href="${css}/bootstrap3_3.css" rel="stylesheet"> --%>
@@ -84,6 +85,11 @@
 			<!-- Load only when user clicks show product-->
 			<c:if test="${userClickShowProduct == true}">
 				<%@include file="singleProduct.jsp"%>
+			</c:if>
+			
+			<!-- Load only when user clicks manage products-->
+			<c:if test="${userClickManageProducts == true}">
+				<%@include file="manageProducts.jsp"%>
 			</c:if>
 			
 
