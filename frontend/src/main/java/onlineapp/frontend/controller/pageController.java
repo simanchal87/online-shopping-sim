@@ -1,5 +1,7 @@
 package onlineapp.frontend.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,14 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import onlineapp.backend.dao.CategoryDAO;
+import onlineapp.backend.dao.ProductDAO;
 import onlineapp.backend.dto.Category;
+import onlineapp.backend.dto.Product;
+import onlineapp.frontend.exception.ProductNotFoundException;
 
 @Controller
 public class pageController
 
 {
+	private static final Logger logger = LoggerFactory.getLogger(pageController.class);
+	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	@Autowired
+	private ProductDAO productDAO;
 	
 	
 	@RequestMapping(value = { "/", "/home", "/index" })
@@ -22,6 +32,10 @@ public class pageController
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("page");
 		mv.addObject("title", "Home");
+		
+		logger.info("Inside pageController index method - INFO");
+		logger.debug("Inside pageController index method - DEBUG");
+		
 		//Passing the list of categories
 		mv.addObject("categories", categoryDAO.list());
 		mv.addObject("userClickHome", true);
@@ -82,6 +96,30 @@ public class pageController
 		mv.addObject("userClickCategoryProducts", true);
 		return mv;
 	}
+	
+	//viewing a single product
+	
+	@RequestMapping(value= "/show/{id}/product")
+	public ModelAndView showSingleProduct(@PathVariable int id) throws ProductNotFoundException
+	{
+		ModelAndView mv = new ModelAndView("page");
+		
+		Product product = productDAO.get(id);
+		
+		if(product==null) throw new ProductNotFoundException();
+		
+		//update the view count
+		product.setViews(product.getViews()+1);
+		productDAO.update(product);
+		
+		mv.addObject("title", product.getName());
+		mv.addObject("product",product);
+		
+		mv.addObject("userClickShowProduct", true);
+		
+		return mv;
+	}
+	
 
 	/*
 	 * @RequestMapping(value="/test") public ModelAndView

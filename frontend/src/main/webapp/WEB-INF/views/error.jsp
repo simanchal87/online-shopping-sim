@@ -3,11 +3,10 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <c:set var="contextRoot" value="${pageContext.request.contextPath}" />
 
 <spring:url var="css" value="/resources/css" />
-<spring:url var="js" value="/resources/js" />
-<spring:url var="images" value="/resources/images" />
 
 
 <!DOCTYPE html>
@@ -26,7 +25,6 @@
 <script type="text/javascript">
 	window.manu = '${title}';
 	window.contextRoot = '${contextRoot}';
-	
 </script>
 
 <!-- Bootstrap core CSS -->
@@ -54,59 +52,36 @@
 
 	<div class="wrapper">
 
-		<!-- Navigation -->
-		<%@include file="./shared/navbar.jsp"%>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<a class="navbar-brand" href="${contextRoot}/home">Home</a>
+				</div>
+			</div>
 
+		</nav>
 
 		<div class="content">
-			<!-- Page Content -->
-			<!-- Loading the home content -->
-
-			<c:if test="${userClickHome == true}">
-				<%@include file="home.jsp"%>
-			</c:if>
-
-			<!-- Load only when user clicks about-->
-			<c:if test="${userClickAbout == true}">
-				<%@include file="about.jsp"%>
-			</c:if>
-
-			<!-- Load only when user clicks contact-->
-			<c:if test="${userClickContact == true}">
-				<%@include file="contact.jsp"%>
-			</c:if>
-			
-			<!-- Load only when user clicks list products-->
-			<c:if test="${userClickAllProducts == true or userClickCategoryProducts == true}">
-				<%@include file="listProducts.jsp"%>
-			</c:if>
-			
-			<!-- Load only when user clicks show product-->
-			<c:if test="${userClickShowProduct == true}">
-				<%@include file="singleProduct.jsp"%>
-			</c:if>
-			
-
-			<!-- /.container -->
-
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="jumbotron">
+							<h1>${errorTitle}</h1>
+							<hr />
+							<blockquote style="word-wrap:break-word">
+								<h1>${errorDescription}</h1>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
 
 		<!-- Footer -->
 		<%@include file="./shared/footer.jsp"%>
 
-
-		<!-- Bootstrap core JavaScript -->
-		<script src="${js}/jquery.min.js"></script>
-		<script src="${js}/bootstrap.bundle.min.js"></script>
-		
-		<!-- DataTable plugin -->
-		<script src="${js}/jquery.dataTables.js"></script>
-		
-		<!-- DataTable Bootstrap script -->
-		<script src="${js}/dataTables.bootstrap.js"></script>
-
-		<!-- self coded JavaScript -->
-		<script src="${js}/myapp.js"></script>
 
 	</div>
 
