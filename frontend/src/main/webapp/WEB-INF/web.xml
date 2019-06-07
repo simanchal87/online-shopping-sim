@@ -15,11 +15,21 @@
 			<param-value>true</param-value>
 		</init-param>
 		
+		<!-- 
+		1024 * 1024 * 1 = 1 MB
+		1024 * 1024 * 2 = 2 MB
+		1024 * 1024 * 4 = 4 MB
+				
+		 -->
+	
 		
-		 <!-- <init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:applicationContext.xml</param-value>
-		</init-param>  -->
+		<multipart-config>
+			<max-file-size>2097152</max-file-size>
+			<max-request-size>4194304</max-request-size>
+			<file-size-threshold>1048576</file-size-threshold>
+		</multipart-config>
+		
+	
 	</servlet>
 
 	<servlet-mapping>

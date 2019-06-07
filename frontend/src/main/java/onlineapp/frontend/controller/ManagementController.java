@@ -2,10 +2,15 @@ package onlineapp.frontend.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +21,8 @@ import onlineapp.backend.dao.CategoryDAO;
 import onlineapp.backend.dao.ProductDAO;
 import onlineapp.backend.dto.Category;
 import onlineapp.backend.dto.Product;
+import onlineapp.frontend.util.FileUploadUtility;
+import onlineapp.frontend.validator.ProductValidator;
 
 @Controller
 @RequestMapping("/manage")
@@ -56,11 +63,33 @@ public class ManagementController {
 	
 	//Handeling product submition
 	@RequestMapping(value="/products", method=RequestMethod.POST)
-	public String handelProductSubmission(@ModelAttribute("product") Product mProduct)
+	public String handelProductSubmission(@Valid @ModelAttribute("product") Product mProduct, BindingResult results, Model model, HttpServletRequest request)
 	{
+		
+		//check image validator
+		new ProductValidator().validate(mProduct, results);
+		
+		
+		//check if there is any error in product submission
+		
+		if(results.hasErrors())
+		{	
+			model.addAttribute("userClickManageProducts", true);
+			model.addAttribute("title", "Manage Products");
+			model.addAttribute("message", "Validation failed for product submission.");
+			return "page";
+		}
+		
+		
 		logger.info(mProduct.toString());
+		
 		//create a new product record.
 		productDAO.add(mProduct);
+		
+		if(!mProduct.getFile().getOriginalFilename().equals(""))
+		{
+			FileUploadUtility.uploadFile(request, mProduct.getFile(), mProduct.getCode());
+		}
 		
 		return "redirect:/manage/products?operation=product";
 	}
