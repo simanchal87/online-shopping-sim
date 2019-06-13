@@ -29,7 +29,7 @@ first_name VARCHAR(50),
 last_name VARCHAR(50),
 role VARCHAR(50),
 enable boolean,
-password VARCHAR(50),
+password VARCHAR(100),
 email VARCHAR(100),
 contact_number VARCHAR(15),
 constraint pk_user_id primary key(id)
@@ -40,13 +40,23 @@ constraint pk_user_id primary key(id)
 --DROP ALL OBJECTS;
 
 INSERT INTO user_detail (first_name,last_name,role,enable,password,email,contact_number) 
-values ('Virat','Kholi','ADMIN',true,'admin','vk@gmail.com','8888888888');
+values ('Virat','Kholi','ADMIN',true,'ADMIN','vk@gmail.com','8888888888');
 
 INSERT INTO user_detail (first_name,last_name,role,enable,password,email,contact_number) 
-values ('Sachin','Tendulkar','SUPPLIER',true,'12345','st@gmail.com','9999999999');
+values ('Sachin','Tendulkar','SUPPLIER',true,'123','st@gmail.com','9999999999');
 
 INSERT INTO user_detail (first_name,last_name,role,enable,password,email,contact_number) 
-values ('MS','Dhoni','SUPPLIER',true,'12345','md@gmail.com','7777777777');
+values ('MS','Dhoni','USER',true,'12345','md@gmail.com','7777777777');
+
+------------- bcrypted---------
+INSERT INTO user_detail (first_name,last_name,role,enable,password,email,contact_number) 
+values ('Virat','Kholi','ADMIN',true,'$2b$10$lqW9OcYgfzHBYW8YLtgSO.3LzkgLQIhhntb/RXpyrg1keQdIvq0im','vk@gmail.com','8888888888');
+
+INSERT INTO user_detail (first_name,last_name,role,enable,password,email,contact_number) 
+values ('Sachin','Tendulkar','SUPPLIER',true,'$2b$10$SRFFwq7uPnwcPI7Fn80z9u.dn/203ToBcbkKiNZDLx6.Cd9NzaBCq','st@gmail.com','9999999999');
+
+INSERT INTO user_detail (first_name,last_name,role,enable,password,email,contact_number) 
+values ('MS','Dhoni','USER',true,'$2b$10$ytKgQynayTW5/wZvCULVHOhhC6BL7YBWBF/Bzj.SiRQ0lrsPUXq9a','md@gmail.com','7777777777');
 
 
 CREATE TABLE product

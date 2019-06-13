@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import onlineapp.backend.dao.UserDAO;
 import onlineapp.backend.dto.Address;
-import onlineapp.backend.dto.Cart;
 import onlineapp.backend.dto.User;
 
 @Repository("userDAO")
@@ -48,7 +47,9 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 	}
-
+/*  
+ * 
+ * Moved it to cartLineDAOImpl
 	@Override
 	public boolean updateCart(Cart cart) {
 		try {
@@ -62,6 +63,7 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 	}
+	*/
 
 	@Override
 	public User getByEmail(String email) {

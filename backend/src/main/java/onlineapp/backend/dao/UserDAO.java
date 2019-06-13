@@ -3,7 +3,6 @@ package onlineapp.backend.dao;
 import java.util.List;
 
 import onlineapp.backend.dto.Address;
-import onlineapp.backend.dto.Cart;
 import onlineapp.backend.dto.User;
 
 public interface UserDAO {
@@ -23,7 +22,10 @@ public interface UserDAO {
 	Address getBillingAddress(User user);
 	List <Address> listShippingAddress(User user);
 	
-	boolean updateCart(Cart cart);
+	/*
+	 * Moved it to CartLine DAO
+	 * boolean updateCart(Cart cart);
+	 * */
 	
 	
 	

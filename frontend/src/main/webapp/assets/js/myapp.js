@@ -13,6 +13,9 @@ $(function() {
 	case 'Manage Products':
 		$('#manageProducts').addClass('active');
 		break;
+	case 'User Cart':
+		$('#userCart').addClass('active');
+		break;
 	default:
 		if (manu == "Home")
 			break;
@@ -20,6 +23,22 @@ $(function() {
 		$('#a_' + manu).addClass('active');
 		break;
 	}
+	
+	// to tackel the csrf token
+	
+	var token = $('meta[name="_csrf"]').attr('content');
+	var header = $('meta[name="_csrf_header"]').attr('content');
+	
+	if(token.length >0 && header.length >0){
+		// set the token header for ajax request
+		$(document).ajaxSend(function (e, xhr, options)
+			{
+			xhr.setRequestHeader(header, token);
+			});
+	}
+	
+	
+	
 
 	//Code for Jquery Data Table
 
@@ -101,16 +120,28 @@ $(function() {
 											+ data
 											+ '/product" class="btn btn-primary"><snap calss="glyphicon glyphicon-eye-open"></snap> View</a> &#160;';
 
-									if (row.quantity < 1) {
-										str += '<a href="javascript:void(0)" class="btn btn-success disabled"><snap calss="glyphicon glyphicon-shopping-cart"></snap>Cart</a>';
-									} else {
+									
+									if(userRole == 'ADMIN'){
 										str += '<a href="'
-												+ window.contextRoot
-												+ '/cart/add/'
-												+ data
-												+ '/product" class="btn btn-success"><snap calss="glyphicon glyphicon-shopping-cart"></snap> Cart</a>';
+											+ window.contextRoot
+											+ '/manage/'
+											+ data
+											+ '/product" class="btn btn-warning"><snap calss="glyphicon glyphicon-shopping-cart"></snap> Edit</a>';
+									} else {
+										
+										if (row.quantity < 1) {
+											str += '<a href="javascript:void(0)" class="btn btn-success disabled"><snap calss="glyphicon glyphicon-shopping-cart"></snap>Cart</a>';
+										} else {
+												str += '<a href="'
+													+ window.contextRoot
+													+ '/cart/add/'
+													+ data
+													+ '/product" class="btn btn-success"><snap calss="glyphicon glyphicon-shopping-cart"></snap> Cart</a>';
+											
+										}
+										
 									}
-
+									
 									return str;
 								}
 
@@ -339,6 +370,84 @@ $(function() {
 	}
 	
 	/*-----------------------*/
+	
+	// Client side validation code for login form
+	
+var $loginForm = $('#loginForm');
+	
+	if($loginForm.length){
+		$loginForm.validate({
+			
+			rules : {
+				username : {
+					required: true,
+					email: true
+				},
+				
+				password: {
+					required: true
+				},
+				
+				messages: {
+					username : {
+						required: 'Enter user name.',
+						email: 'Enter a valid e-mail address'
+					},
+					
+					password: {
+						required: 'Enter password.'
+					}
+				},
+				
+				errorElement: 'em',
+				errorPlacement: function(error, element){
+					//add the class of help-block
+					error.addClass('help-block');
+					//add the error element after the input element
+					error.insertAfter(element);
+				}
+			}
+		});
+	}
+	
+	//handeling the click event of the refresh cart button
+	
+	$('button[name="refreshCart"]').click(function(){
+		//fetch the cat line id
+		var cartLineId = $(this).attr('value');
+		var countElement = $('#count_' + cartLineId);
+		
+		var originalCount = countElement.attr('value');
+		var currentCount = countElement.val();
+		
+		//work only when the count is updated
+		
+		if(currentCount !== originalCount){
+			
+			if(currentCount <1  || currentCount > 3){
+				//reveting back to the original count
+				countElement.val(originalCount);
+				bootbox.alert({
+					
+					size: 'medium',
+					title: 'Error',
+					message: 'product count min 1 and max 3.'
+				});
+			} else {
+				var updateUrl = window.contextRoot + '/cart/' + cartLineId + '/update?count=' + currentCount;
+				//forward it to controller
+				window.location.href = updateUrl;
+				
+				/* The url will be like 
+				 * 
+				 * /cart/{cartLineId/update?count=1|2|3}
+				 * */
+			}
+			
+		}
+		
+		
+	});
 	
 	
 });

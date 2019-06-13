@@ -42,7 +42,10 @@
 			</div>
 
 			<div class="row" >
-				<Div class="col-xs-12">
+				<div class="col-xs-12">
+				<div class="container-fluid">
+					<div class="table-responsive">
+				
 
 					<table id="productListTable"
 						class="table table-striped table-border">
@@ -59,16 +62,9 @@
 
 						</thead>
 
-						<!-- <tfoot>
-							<tr>
-								<th>Name</th>
-								<th>Brand</th>
-								<th>Price</th>
-								<th>Qty. Avl.</th>
-							</tr>
-
-						</tfoot> -->
 					</table>
+				</div>
+				</div>
 
 
 				</div>
